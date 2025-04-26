@@ -1,3 +1,3 @@
-from cli_interface.main import getUserName
+from cli_interface.main import get_user_name
 
-userName = getUserName()
+user_name = get_user_name()
