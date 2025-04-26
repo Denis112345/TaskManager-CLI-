@@ -1,0 +1,6 @@
+services:
+  task_manager:
+    command: bash -c "python3 main.py"
+    build: .
+    volumes:
+      - ./:/app
