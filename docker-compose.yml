@@ -1,6 +1,8 @@
 services:
   task_manager:
-    command: bash -c "python3 main.py"
+    command: bash -c "python3 start.py"
     build: .
     volumes:
       - ./:/app
+    stdin_open: true
+    tty: true
