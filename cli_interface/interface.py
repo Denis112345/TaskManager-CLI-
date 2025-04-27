@@ -26,7 +26,7 @@ class CLIInterface:
     
     def _in_options_range_validate_option(self, option: str) -> bool:
         """
-        Проверяет входит ли в диапазон существуюих опций,
+        Проверяет входит ли в диапазон существующих опций,
         введенная опция
         """
         if int(option) in range(0, len(self.options)):
@@ -78,7 +78,3 @@ class CLIInterface:
         selected_option: str = self._get_valid_user_select()
 
         self._run_selected_option(int(selected_option))
-
-
-if __name__ == '__main__':
-    CLIInterface().start()
