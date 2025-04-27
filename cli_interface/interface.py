@@ -9,26 +9,16 @@ class CLIInterface:
         self.welcome_message: str = '\nДобро пожаловать, в систему контроля задач!'
     
     def _show_options(self) -> None:
-        """
-        Отображает список опций для пользователя.
-        """
         print('\n')
         for index, option in enumerate(self.options):
             print(f"{index}. {option}")
 
     def _type_validate_option(self, option: str) -> bool:
-        """
-        Проверяет ввел ли пользователь число
-        """
         if option.isdigit():
             return True
         return False
     
     def _in_options_range_validate_option(self, option: str) -> bool:
-        """
-        Проверяет входит ли в диапазон существующих опций,
-        введенная опция
-        """
         if int(option) in range(0, len(self.options)):
             return True
         return False
@@ -69,9 +59,6 @@ class CLIInterface:
                 return selected_option
 
     def start(self) -> None:
-        """
-        Метод даёт выбор опций пользователю и вызывает выбранную
-        """
         print(self.welcome_message)
         self._show_options()
 
