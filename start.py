@@ -1,3 +1,14 @@
-from cli_interface.main import get_user_name
+"""Модуль для запуска сервиса"""
+from typing import Callable
+from cli_interface.interface import CLIInterface
 
-user_name = get_user_name()
+
+def foo():
+    print('Hello, world!')
+
+options: dict[str, Callable] = {
+    'Добавить задачу': foo
+}
+
+cli_interface = CLIInterface(options=options)
+cli_interface.start()
