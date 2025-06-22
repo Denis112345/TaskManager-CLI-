@@ -40,8 +40,8 @@ class CLIInterface:
             return False
 
     def _get_function_for_option(self, option_number: int) -> Callable:
-        options_functions: list[Callable] = list(self.options.values())
-        target_function: Callable = options_functions[option_number]
+        option_functions: list[Callable] = list(self.options.values())
+        target_function: Callable = option_functions[option_number]
         return target_function
 
     def _run_selected_option(self, option_number: int) -> None:
