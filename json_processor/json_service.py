@@ -1,27 +1,47 @@
 """Модуль для взаимодействия с JSON-хранилищем данных"""
-import os
+import json
 from pathlib import Path
-from dotenv import load_dotenv, find_dotenv
 from logger.logger_service import logger
+from tasks.task_structures import Task
+from utils.utils import get_storage_path
 
 
-def add_task_to_storage(task: dict[str, str]) -> bool:
-    path_to_storage: Path = get_path_to_storage_from_env()
-    if check_exists_storage(path_to_storage):
-        pass
+def add_task_to_storage(task: Task) -> bool:
+    path_to_storage: Path = get_storage_path()
+
+    if not check_exists_storage(path_to_storage):
+        path_to_storage: Path = get_storage_path()
+        create_storage(path_to_storage)
+
+    with open(path_to_storage, 'r', encoding='utf-8') as file:
+        data: dict = json.load(file)
+
+    if data:
+        last_task_id: int = get_last_task_id(data)
+        task.id = last_task_id + 1
+        tasks: list[dict[str, str]] = data['tasks']
+        tasks.append(task.model_dump())
+    else:
+        task.id = 0
+        data['tasks'] = [task.model_dump()]
+
+    with open(path_to_storage, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+
+    return True
 
 
-def get_path_to_storage_from_env() -> Path:
-    path_to_env: str = '../.env'
+def create_storage(path: Path) -> None:
+    with open(path, 'w', encoding='utf-8') as file:
+        json.dump({}, file, ensure_ascii=False, indent=4)
 
-    if not find_dotenv(path_to_env):
-        logger.error(f'Файл .env по пути {path_to_env} не найден')
-        raise FileNotFoundError
 
-    # TODO Сделать проверку на наличие JSON_STORAGE_PATH
-    load_dotenv(path_to_env)
-    path_to_storage: Path = Path(os.getenv('JSON_STORAGE_PATH'))
-    return path_to_storage
+def get_last_task_id(data: dict) -> int:
+    tasks: list[dict[str, str]] = data.get('tasks', [])
+    if tasks:
+        last_task: dict[str, str] = tasks[-1]
+        return int(last_task['id'])
+    return 0
 
 
 def check_exists_storage(path: Path) -> bool:

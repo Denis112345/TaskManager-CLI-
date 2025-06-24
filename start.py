@@ -1,14 +1,11 @@
 """Модуль для запуска сервиса"""
 from typing import Callable
 from cli_interface.interface import CLIInterface
-
-
-def foo():
-    print('Hello, world!')
+from tasks.task_service import add_task
 
 
 options: dict[str, Callable] = {
-    'Добавить задачу': foo
+    'Добавить задачу': add_task
 }
 
 cli_interface = CLIInterface(options=options)

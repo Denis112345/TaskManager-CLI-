@@ -6,8 +6,9 @@ from typing import Callable
 class CLIInterface:
     def __init__(self, options: dict[str, Callable]):
         self.options: dict[str, Callable] = options
-        self.welcome_message: str = '\nДобро пожаловать, в систему контроля задач!'
-    
+        self.welcome_message: str = \
+            '\n Добро пожаловать, в систему контроля задач!'
+
     def _show_options(self) -> None:
         print('\n')
         for index, option in enumerate(self.options):
@@ -17,12 +18,12 @@ class CLIInterface:
         if option.isdigit():
             return True
         return False
-    
+
     def _in_options_range_validate_option(self, option: str) -> bool:
         if int(option) in range(0, len(self.options)):
             return True
         return False
-    
+
     def _validate_option(self, option: str) -> bool:
         if not self._type_validate_option(option):
             raise ValueError('Введено не натуральное число/цифра')
@@ -30,7 +31,7 @@ class CLIInterface:
             raise ValueError('Номер опции находится вне диапазона опций')
         
         return True
-    
+
     def _validate_option_with_error_handling(self, option) -> bool:
         try:
             self._validate_option(option)
